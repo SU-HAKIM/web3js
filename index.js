@@ -1,5 +1,5 @@
 let Book = require('./build/contracts/Book.json');
-let Tx = require('ethereumjs-tx').Transaction;
+let { Transaction } = require('@ethereumjs/tx');
 let Web3 = require('web3');
 let web3 = new Web3('http://localhost:7545');
 require('dotenv').config();
@@ -26,10 +26,10 @@ async function contract_code() {
         gasPrice: web3.utils.toHex(web3.utils.toWei('10', 'gwei'))
     }
     //sign the transaction
-    const tx = new Tx(txObject)
-    tx.sign(private_key_1);
+    const tx = Transaction.fromTxData(txObject)
+    let signedTx = tx.sign(private_key_1);
 
-    const serialized_transaction = tx.serialize();
+    const serialized_transaction = signedTx.serialize();
     const raw = `0x${serialized_transaction.toString('hex')}`;
     //Broadcast the Transaction 
     console.log(raw);
