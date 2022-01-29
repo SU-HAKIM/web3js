@@ -32,7 +32,8 @@ async function contract_code() {
     const serialized_transaction = signedTx.serialize();
     const raw = `0x${serialized_transaction.toString('hex')}`;
     //Broadcast the Transaction 
-    console.log(raw);
+    let txHash = await web3.eth.sendSignedTransaction(raw);
+    console.log(txHash);
 }
 
 contract_code();
